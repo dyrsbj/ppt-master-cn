@@ -1,34 +1,67 @@
-# PPT Master CN for Codex
+# PPT Master CN：Codex 安装与使用
 
-这是**单 Skill 安装的中文整合入口**。不需要另外安装 `$ppt-master`，首次运行自动下载官方 v6.7.0 完整 Skill 运行时到本目录 `vendor/ppt-master`。
+> 详细、可复制的安装步骤请查看**仓库根目录**：[README.md](../../README.md#1-给-codex-安装推荐全局生效)。
+>
+> 本目录是 `ppt-master-cn` Skill 本体，包括 `SKILL.md`、`scripts/bootstrap.py`、中文规范以及测试。它能作为**单个 Skill 安装**，不需要再单独安装 `$ppt-master`。
 
-### 安装
-在项目根目录执行 `npx skills add dyrsbj/ppt-master-cn`，选择 Codex 和 `ppt-master-cn`。
+## 一、通过 npx 安装给 Codex（推荐）
 
-或将本文件所在目录复制到：
-- Windows：`%USERPROFILE%\.agents\skills\ppt-master-cn`
-- macOS/Linux：`~/.agents/skills/ppt-master-cn`
+前提：Node.js（含 npx）、Python 3.10+（含 pip），首次初始化需能下载 GitHub Release。
 
-首次初始化：
+在 **Windows PowerShell / macOS 或 Linux 终端**中执行（不是 Codex 对话框）：
+
 ```bash
-python3 ~/.agents/skills/ppt-master-cn/scripts/bootstrap.py
-python3 ~/.agents/skills/ppt-master-cn/scripts/bootstrap.py --check
+npx skills add dyrsbj/ppt-master-cn --skill ppt-master-cn -a codex -g
 ```
-Windows PowerShell:
+
+参数说明：`--skill` 指定 Skill，`-a codex` 指定 Codex，`-g` 表示全局生效；如果只安装给当前项目，去掉 `-g`，在项目根目录运行。
+
+## 二、初始化引擎（只需首次）
+
+安装器版本不同时，实际安装位置可能是 `~/.agents/skills/ppt-master-cn` 或 `~/.codex/skills/ppt-master-cn`。以安装命令显示的路径为准。
+
+### Windows PowerShell
+
 ```powershell
-py -3 "$HOME\.agents\skills\ppt-master-cn\scripts\bootstrap.py"
-py -3 "$HOME\.agents\skills\ppt-master-cn\scripts\bootstrap.py" --check
+$skill = @(
+  "$HOME\.agents\skills\ppt-master-cn",
+  "$HOME\.codex\skills\ppt-master-cn"
+) | Where-Object { Test-Path (Join-Path $_ "scripts\bootstrap.py") } | Select-Object -First 1
+if (-not $skill) { throw "找不到 Skill，请检查上一步的安装输出。" }
+py -3 (Join-Path $skill "scripts\bootstrap.py")
+py -3 (Join-Path $skill "scripts\bootstrap.py") --check
 ```
-首次需 Python 3.10+、GitHub 下载访问和 pip。亦可下载官方 ZIP 后 `python scripts/bootstrap.py --archive /path/to/ppt-master-skill-v6.7.0.zip`。此流程会严格核验 SHA-256 和作者完整性门禁。
 
-### Codex
+### macOS / Linux
+
+```bash
+SKILL_DIR=""
+for dir in "$HOME/.agents/skills/ppt-master-cn" "$HOME/.codex/skills/ppt-master-cn"; do
+  if [ -f "$dir/scripts/bootstrap.py" ]; then SKILL_DIR="$dir"; break; fi
+done
+if [ -z "$SKILL_DIR" ]; then echo "找不到 Skill，请检查安装输出"; exit 1; fi
+python3 "$SKILL_DIR/scripts/bootstrap.py"
+python3 "$SKILL_DIR/scripts/bootstrap.py" --check
+```
+
+初始化会下载官方 PPT Master **v6.7.0** ZIP，校验 SHA-256、验证上游完整性并安装 Python 依赖。无需安装独立的 `$ppt-master` Skill。下载超时可先获取官方 ZIP，使用 `--archive <文件绝对路径>`。
+
+## 三、在 Codex 使用
+
+重启 Codex 或重新打开会话，输入：
+
 ```text
-$ppt-master-cn 快速制作12页中文企业AI平台汇报，16:9，蓝白科技风，图表和文字尽可能原生可编辑。
+$ppt-master-cn
+制作 10 页《企业 AI Agent 平台建设方案》PPT，中文、16:9、蓝白科技风。
+文字、图表、架构图尽可能原生可编辑，禁止编造数据；
+按官方工作流完成质量检查后输出 PPTX。
 ```
 
-### 说明
-**独立安装不等于完全离线嵌入。** 当前仓库提供独立 Skill 入口、下载器和中文规范，而不是把官方 22.5 MB 引擎直接提交到 Git。初始化后上游引擎驻留本 Skill 的 vendor 内，因此没有第二个 Skill 依赖。普通 PPT 工作流可能仍需用户授权的图片、模型等网络资源。
+若 Codex 不显示该 Skill，核对安装目录下是否有 `SKILL.md`，确认没有多个同名安装副本，并重启 Codex。
 
-固定官方包：https://github.com/hugohe3/ppt-master/releases/tag/v6.7.0
+## 四、更多说明
 
-官方引擎 Copyright (c) 2025–2026 Hugo He, MIT License；原作者权利和许可证保留。本整合不代表上游官方。通过 `python -m unittest discover -s skills/ppt-master-cn/tests -v` 运行无需网络的单元测试；真正的 PPT 生成端到端检验必须在安装依赖后执行。
+- **手动安装、不使用 npx**：[根 README 的手动安装章节](../../README.md#2-不用-npx手动安装)。
+- **常见错误和离线安装**：[根 README 常见问题](../../README.md#3-常见问题)。
+- **测试**：`python -m unittest discover -s skills/ppt-master-cn/tests -v`。
+- **声明**：本 Skill 是非官方整合层，保留 Hugo He 官方 [PPT Master](https://github.com/hugohe3/ppt-master) 的 MIT 许可证、署名及完整性验证。初始化通过不代表已做 PPT 端到端生成测试。
