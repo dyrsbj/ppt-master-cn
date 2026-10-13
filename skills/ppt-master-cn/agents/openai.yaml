@@ -1,0 +1,6 @@
+interface:
+  display_name: "PPT Master 中文整合版"
+  short_description: "一个 Skill 入口，自动引入完整上游引擎，生成中文可编辑 PPTX"
+  default_prompt: "$ppt-master-cn 创建专业中文 PPT，遵守上游生成流程与质量检查。"
+policy:
+  allow_implicit_invocation: false
