@@ -1,10 +1,35 @@
 # PPT Master CN：Codex 安装与使用
 
-> 详细、可复制的安装步骤请查看**仓库根目录**：[README.md](../../README.md#1-给-codex-安装推荐全局生效)。
+> 完整的 Agent 对话安装提示词与手动安装说明请查看[仓库首页 README](../../README.md)。
 >
 > 本目录是 `ppt-master-cn` Skill 本体，包括 `SKILL.md`、`scripts/bootstrap.py`、中文规范以及测试。它能作为**单个 Skill 安装**，不需要再单独安装 `$ppt-master`。
 
-## 一、通过 npx 安装给 Codex（推荐）
+## 先试试：直接让 Agent 帮你安装（首选）
+
+无需先运行终端命令。在 **Codex / Claude Code / 其他有本地文件读写和命令执行权限的 Agent 对话框** 输入：
+
+```text
+帮我安装这个 Skill：https://github.com/dyrsbj/ppt-master-cn
+```
+
+如果 Agent 不清楚安装路径，可以使用更详细的指令：
+
+```text
+请帮我将 https://github.com/dyrsbj/ppt-master-cn 中的
+skills/ppt-master-cn 安装到你当前 Agent 支持的个人 Skills 目录。
+先阅读 README、SKILL.md 和 scripts/bootstrap.py，安装后运行
+bootstrap.py 初始化官方引擎并执行 bootstrap.py --check 验证。
+不需要额外安装 $ppt-master。完成后告诉我安装目录和验证结果；
+没有文件系统或终端权限时请说明限制并给出手动操作命令。
+```
+
+需要 Node.js / Python 或授权时，Agent 应明确说明。**仅复制仓库不算完成**，首次引擎下载、依赖安装以及 `--check` 检查均须成功。不支持本地 Skills 或无法执行命令的普通网页聊天 Agent 不能代替用户在电脑上安装。
+
+更完整的“一句话安装 / 推荐完整指令 / 命令行备用安装”见 [仓库首页 README](../../README.md)。
+
+---
+
+## 一、通过 npx 安装给 Codex（备用）
 
 前提：Node.js（含 npx）、Python 3.10+（含 pip），首次初始化需能下载 GitHub Release。
 
