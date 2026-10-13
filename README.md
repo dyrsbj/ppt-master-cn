@@ -1,6 +1,6 @@
-# PPT Master CN — Codex 中文整合版
+# PPT Master CN — 通用 Agent 中文 PPT Skill
 
-**一个 Codex Skill，提供中文企业 PPT 工作流，并在首次使用时初始化完整的官方 PPT Master 生成引擎。**
+**支持 Codex、Claude Code 等编程 Agent 的中文 PPT Skill**，首次使用时初始化完整的官方 PPT Master 生成引擎。
 
 - 技术来源：[hugohe3/ppt-master](https://github.com/hugohe3/ppt-master)（固定 **v6.7.0**）
 - 本仓库 Skill：[skills/ppt-master-cn/SKILL.md](skills/ppt-master-cn/SKILL.md)
@@ -8,7 +8,47 @@
 - 引擎初始化脚本：[bootstrap.py](skills/ppt-master-cn/scripts/bootstrap.py)
 - 安装完**只需调用 `$ppt-master-cn`**，无需额外安装或单独调用官方 `$ppt-master`
 
-## 1. 给 Codex 安装（推荐，全局生效）
+## 最简单的安装方式：直接在 Agent 对话框里说（推荐）
+
+适用于 **Codex、Claude Code** 等能够访问本机终端、文件系统，并支持本地 Skills 的编程 Agent。**不用先打开终端输入命令**。
+
+**一句话安装：** 复制下面这句话，发送给你正在使用的 Agent：
+
+```text
+帮我安装这个 Skill：https://github.com/dyrsbj/ppt-master-cn
+```
+
+**更稳妥的完整指令（推荐首次安装时使用）：**
+
+```text
+请帮我安装这个 Skill：
+https://github.com/dyrsbj/ppt-master-cn
+
+请先阅读仓库 README、skills/ppt-master-cn/SKILL.md 和安装脚本，
+识别你当前是 Codex、Claude Code 还是其他支持 Skills 的 Agent，
+并根据当前操作系统将 skills/ppt-master-cn 安装到该 Agent 实际识别的个人 Skills 目录。
+
+要求：
+1. 安装为可在多个项目使用的个人 Skill，而不只是把仓库克隆到当前目录。
+2. 无须单独安装官方 $ppt-master；只安装 $ppt-master-cn。
+3. 按仓库说明运行 scripts/bootstrap.py 初始化完整的官方 PPT Master 引擎，保留原作者的许可、署名和完整性校验。
+4. 运行 scripts/bootstrap.py --check，核实成功后告诉我安装路径、检查结果和使用方法。
+5. 如果当前环境无法执行命令、缺少必要权限或下载失败，请明确说明哪里失败，给出需要我执行的操作；不要把“已克隆仓库”当作“安装成功”。
+
+未经验证，不要宣称 PPTX 已经实际生成成功。
+```
+
+> 提示：**Codex CLI / Codex 桌面端和 Claude Code** 可在拥有相应终端/文件系统权限时尝试自动完成。普通网页聊天机器人或没有本地执行权限的 Agent 可能只能给出安装命令，无法替你真正安装。若首次下载官方引擎失败，参照下方离线 ZIP 安装说明；部分操作可能需要你授权。
+
+安装并通过校验后，可以在支持该 Skill 的 Agent 中输入：
+
+```text
+$ppt-master-cn 帮我做一份 10 页的中文企业 AI 平台介绍 PPT，16:9，蓝白科技风，文字和架构图尽量原生可编辑。
+```
+
+---
+
+## 1. 命令行安装：给 Codex 安装（备用方式）
 
 以下步骤可用于 **Codex CLI / Codex 桌面端**。先在本机安装：
 
